@@ -56,4 +56,5 @@ public class TradeService {
             throw new RuntimeException(e);
         }
     }
+
 }

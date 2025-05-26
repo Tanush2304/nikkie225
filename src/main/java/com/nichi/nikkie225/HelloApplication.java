@@ -10,11 +10,11 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("welcomepage.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+        Scene scene = new Scene(fxmlLoader.load());
         scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
         stage.setTitle("Welcome");
         stage.setScene(scene);
-        stage.setFullScreen(true);
+        stage.setMaximized(true);
         stage.show();
 
     }
