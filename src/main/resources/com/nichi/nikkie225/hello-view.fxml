@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" prefHeight="453.0" prefWidth="962.0" spacing="10" styleClass="root" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nichi.nikkie225.HelloController">
+    <HBox prefHeight="56.0" prefWidth="962.0" spacing="10" style="-fx-background-color: white;">
+        <Button fx:id="loadbtn" prefHeight="32.0" prefWidth="50.0" text="Load"  onAction="#onLoadButtonClick"/>
+        <Button fx:id="saveBtn" disable="true" prefHeight="32.0" prefWidth="56.0" text="Save" />
+      <VBox>
+         <children>
+            <AnchorPane prefHeight="57.0" prefWidth="255.0">
+               <children>
+                    <DatePicker fx:id="tradeDatePicker" blendMode="DARKEN" layoutX="128.0" layoutY="18.0" nodeOrientation="LEFT_TO_RIGHT" opacity="0.91" prefHeight="25.0" prefWidth="127.0">
+                     <cursor>
+                        <Cursor fx:constant="SE_RESIZE" />
+                     </cursor>
+                     <effect>
+                        <InnerShadow>
+                           <input>
+                              <Glow />
+                           </input>
+                        </InnerShadow>
+                     </effect>
+                  </DatePicker>
+               </children>
+            </AnchorPane>
+         </children>
+      </VBox>
+    </HBox>
+    <TableView fx:id="tableView" cache="true" cacheHint="SPEED" prefHeight="369.0" prefWidth="962.0" styleClass="table-background" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="stocksCol" prefWidth="75.0" text="Stocks" />
+            <TableColumn fx:id="nameCol" prefWidth="60.0" text="Name" />
+            <TableColumn fx:id="positionTCol" prefWidth="96.0" text="Position(T)" />
+            <TableColumn fx:id="positionTMinus1Col" prefWidth="89.0" text="Position(T-1)" />
+            <TableColumn fx:id="tradePriceCol" text="Trade Price" />
+            <TableColumn fx:id="cashflowCol" prefWidth="79.0" text="Cashflow" />
+            <TableColumn fx:id="priceTCol" prefWidth="81.0" text="Price(T)" />
+            <TableColumn fx:id="priceTMinus1Col" text="Price(T-1)" />
+            <TableColumn fx:id="percentChangeCol" text="change" />
+            <TableColumn fx:id="plCol" text="PL" />
+            <TableColumn fx:id="pricePLCol" text="Price PL" />
+            <TableColumn fx:id="tradePLCol" text="Trade PL" />
+        </columns>
+    </TableView>
+
+
+</VBox>

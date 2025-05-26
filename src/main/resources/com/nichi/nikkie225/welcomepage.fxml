@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.nichi.nikkie225.WelcomeController"
+      alignment="CENTER" spacing="20" styleClass="root">
+
+    <Label text="Welcome to Nikkei 225" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: white;" styleClass="welcome-label" />
+    <Button text="Monitor" onAction="#handleMonitorButton" styleClass="hyperlink-button" prefWidth="800" prefHeight="600" />
+</VBox>

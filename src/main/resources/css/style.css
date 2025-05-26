@@ -1,0 +1,37 @@
+.root {
+      -fx-background-color:black;
+      -fx-background-image: url("../image/heelo3.jpg");
+      -fx-background-repeat: no-repeat;
+       -fx-background-position: center center;
+        -fx-background-size: cover;
+
+
+  }
+  .title-label {
+      -fx-font-size: 28px;
+      -fx-font-weight: bold;
+  }
+
+  .hyperlink-button {
+      -fx-background-color: transparent;
+      -fx-text-fill: #0066cc;
+      -fx-underline: true;
+      -fx-cursor: hand;
+      -fx-font-size: 40px;
+      -fx-font-weight: bold;
+      -fx-text-fill: green;
+      -fx-alignment: top-right;
+  }
+
+  .hyperlink-button:hover {
+      -fx-text-fill: white;
+
+  }
+.welcome-label {
+    -fx-font-size: 40px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+
+}
+
+
