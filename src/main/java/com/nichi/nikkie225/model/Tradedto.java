@@ -5,7 +5,7 @@ public class Tradedto {
     private String Name;
     private Integer PositionT;
     private Integer PositionTm1;
-    private Integer TradePrice;
+    private Double TradePrice;
     private Integer Cashflow;
     private Integer PriceT;
     private Integer PriceTm1;
@@ -17,7 +17,7 @@ public class Tradedto {
     public Tradedto(){
 
     }
-    public Tradedto(String Stocks,String Name,Integer PositionT,Integer PositionTm1,Integer TradePrice,Integer Cashflow,Integer PriceT,Integer PriceTm1,Double pchange,Integer PL,Integer PricePL,Integer TradePL){
+    public Tradedto(String Stocks,String Name,Integer PositionT,Integer PositionTm1,Double TradePrice,Integer Cashflow,Integer PriceT,Integer PriceTm1,Double pchange,Integer PL,Integer PricePL,Integer TradePL){
         this.Stocks=Stocks;
         this.Name=Name;
         this.PositionT=PositionT;
@@ -64,11 +64,11 @@ public class Tradedto {
         PositionTm1 = positionTm1;
     }
 
-    public Integer getTradePrice() {
+    public Double getTradePrice() {
         return TradePrice;
     }
 
-    public void setTradePrice(Integer tradePrice) {
+    public void setTradePrice(Double tradePrice) {
         TradePrice = tradePrice;
     }
 
@@ -126,6 +126,24 @@ public class Tradedto {
 
     public void setTradePL(Integer tradePL) {
         TradePL = tradePL;
+    }
+
+    @Override
+    public String toString() {
+        return "Tradedto{" +
+                "Stocks='" + Stocks + '\'' +
+                ", Name='" + Name + '\'' +
+                ", PositionT=" + PositionT +
+                ", PositionTm1=" + PositionTm1 +
+                ", TradePrice=" + TradePrice +
+                ", Cashflow=" + Cashflow +
+                ", PriceT=" + PriceT +
+                ", PriceTm1=" + PriceTm1 +
+                ", pchange=" + pchange +
+                ", PL=" + PL +
+                ", PricePL=" + PricePL +
+                ", TradePL=" + TradePL +
+                '}';
     }
 }
 

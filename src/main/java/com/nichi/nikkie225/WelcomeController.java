@@ -1,35 +1,83 @@
 package com.nichi.nikkie225;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Screen;
-import javafx.stage.Stage;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
+import java.net.URL;
+import java.net.URLClassLoader;
 
 public class WelcomeController {
 
     @FXML
-    private void handleMonitorButton(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
-        Parent root = loader.load();
+    private StackPane contentPane;
 
-        Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+    @FXML
+    private Button monitorButton;
 
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    @FXML
+    private Button tradeEntryButton;
 
+    @FXML
+    public void initialize() {
+        try {
+            loadView("hello-view.fxml");
+            setActiveButton(monitorButton);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-        stage.setScene(scene);
-        stage.setTitle("NichiIn PL Monitor Tool");
-        stage.setX(0);
-        stage.setY(0);
-        stage.setWidth(Screen.getPrimary().getVisualBounds().getWidth());
-        stage.setHeight(Screen.getPrimary().getVisualBounds().getHeight());
-        stage.show();
+    @FXML
+    private void handleMonitorButton() throws IOException {
+        loadView("hello-view.fxml");
+        setActiveButton(monitorButton);
+    }
+
+    @FXML
+    private void handleTradeEntryButton() {
+        try {
+            // Path to the external JAR (use "file:" prefix)
+            String jarPath = "file:/C:/Users/nichiuser/Desktop/nichi-in-project/nikkie225/Nifty50Frontend.jar";
+
+            // Create class loader with JAR
+            URL[] urls = { new URL(jarPath) };
+            ClassLoader jarClassLoader = new URLClassLoader(urls);
+
+            // FXML path inside JAR (based on your jar content structure)
+            URL fxmlUrl = jarClassLoader.getResource("com/nichi/nifty50frontend/TradeEntryView.fxml");
+
+            if (fxmlUrl == null) {
+                System.err.println("❌ FXML file not found inside the JAR.");
+                return;
+            }
+
+            // Load FXML from the JAR using the custom class loader
+            FXMLLoader loader = new FXMLLoader(fxmlUrl);
+            loader.setClassLoader(jarClassLoader); // This is important!
+            Node view = loader.load();
+
+            // Replace content in the current StackPane
+            contentPane.getChildren().setAll(view);
+            setActiveButton(tradeEntryButton);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadView(String fxmlFile) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
+        Node view = loader.load();
+        contentPane.getChildren().setAll(view);
+    }
+
+    private void setActiveButton(Button activeButton) {
+        monitorButton.setDisable(false);
+        tradeEntryButton.setDisable(false);
+        activeButton.setDisable(true);
     }
 }

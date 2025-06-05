@@ -5,9 +5,9 @@ public class Pricedto {
     private String dt;
     private String code;
     private String market;
-    private Integer price;
+    private double price;
 
-    public Pricedto(String dt, String code, String market, Integer price) {
+    public Pricedto(String dt, String code, String market, double price) {
         this.dt = dt;
         this.code = code;
         this.market = market;
@@ -38,7 +38,7 @@ public class Pricedto {
         this.market = market;
     }
 
-    public Integer getPrice() {
+    public Double getPrice() {
         return price;
     }
 

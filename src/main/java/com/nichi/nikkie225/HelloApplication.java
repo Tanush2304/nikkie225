@@ -12,7 +12,7 @@ public class HelloApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("welcomepage.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
-        stage.setTitle("Welcome");
+        stage.setTitle("NichiIn PL Monitor Tool");
         stage.setScene(scene);
         stage.setMaximized(true);
         stage.show();

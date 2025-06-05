@@ -4,9 +4,14 @@ import java.time.LocalDate;
 public class TradeEntry {
     private Integer tradeno;
     private String code;
+
+
     private String name;
     private String tradedate;
+
+
     private String side;
+
     private Integer tradeprice;
     private Integer quantity;
 
@@ -74,18 +79,5 @@ public class TradeEntry {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
-    }
-
-    @Override
-    public String toString() {
-        return "TradeEntry{" +
-                "tradeno=" + tradeno +
-                ", code='" + code + '\'' +
-                ", name='" + name + '\'' +
-                ", tradedate='" + tradedate + '\'' +
-                ", side='" + side + '\'' +
-                ", tradeprice=" + tradeprice +
-                ", quantity=" + quantity +
-                '}';
     }
 }
