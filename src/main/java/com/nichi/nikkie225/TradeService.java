@@ -31,8 +31,9 @@ public class TradeService {
                         rs.getString("tradedate"),
                         rs.getString("side"),
 
-                        rs.getInt("tradeprice"),
-                        rs.getInt("quantity")
+                        rs.getDouble("tradeprice"),
+                        rs.getDouble("quantity"),
+                        rs.getString("isdeleted")
                         );
                 master.add(trade);
             }
@@ -54,7 +55,7 @@ public class TradeService {
                         rs.getString("dt"),
                         rs.getString("code"),
                         rs.getString("market"),
-                        rs.getInt("price")
+                        rs.getDouble("price")
                 );
                 master1.add(price);
             }
@@ -71,7 +72,7 @@ public class TradeService {
 
         for (TradeEntry entry : trades) {
             String key = entry.getCode() + "|" + entry.getName();
-            int quantity = entry.getQuantity();
+            Double quantity = entry.getQuantity();
             int currentPosition = positionMap.getOrDefault(key, 0);
 
             if ("B".equalsIgnoreCase(entry.getSide())) {
@@ -101,8 +102,8 @@ public class TradeService {
             String code = parts[0];
             String name = parts[1];
 
-            int posT = positionT.getOrDefault(key, 0);
-            int posTMinus1 = positionTMinus1.getOrDefault(key, 0);
+            double posT = positionT.getOrDefault(key, 0);
+            double posTMinus1 = positionTMinus1.getOrDefault(key, 0);
 
             Tradedto dto = new Tradedto();
             dto.setStocks(code);

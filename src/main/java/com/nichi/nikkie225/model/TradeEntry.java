@@ -1,5 +1,6 @@
 package com.nichi.nikkie225.model;
 import java.time.LocalDate;
+import java.util.Date;
 
 public class TradeEntry {
     private Integer tradeno;
@@ -12,10 +13,11 @@ public class TradeEntry {
 
     private String side;
 
-    private Integer tradeprice;
-    private Integer quantity;
+    private Double tradeprice;
+    private Double quantity;
+    private String isdeleted;
 
-    public TradeEntry(Integer tradeno, String code, String name, String tradedate, String side, Integer tradeprice, Integer quantity) {
+    public TradeEntry(Integer tradeno, String code, String name, String tradedate, String side, Double tradeprice, Double quantity,String isdeleted) {
         this.tradeno = tradeno;
         this.code = code;
         this.name = name;
@@ -23,6 +25,7 @@ public class TradeEntry {
         this.side = side;
         this.tradeprice = tradeprice;
         this.quantity = quantity;
+        this.isdeleted=isdeleted;
     }
 
     public Integer getTradeno() {
@@ -65,19 +68,26 @@ public class TradeEntry {
         this.side = side;
     }
 
-    public Integer getTradeprice() {
+    public Double getTradeprice() {
         return tradeprice;
     }
 
-    public void setTradeprice(Integer tradeprice) {
+    public void setTradeprice(Double tradeprice) {
         this.tradeprice = tradeprice;
     }
 
-    public Integer getQuantity() {
+    public Double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(Double quantity) {
         this.quantity = quantity;
+    }
+    public String getIsdeleted() {
+        return isdeleted;
+    }
+
+    public void setIsdeleted(String side) {
+        this.isdeleted = isdeleted;
     }
 }

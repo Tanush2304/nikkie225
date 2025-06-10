@@ -3,33 +3,19 @@ package com.nichi.nikkie225.model;
 public class Tradedto {
     private String Stocks;
     private String Name;
-    private Integer PositionT;
-    private Integer PositionTm1;
-    private Double TradePrice;
-    private Integer Cashflow;
-    private Integer PriceT;
-    private Integer PriceTm1;
+    private Double PositionT;
+    private Double PositionTm1;
+    private double TradePrice;
+    private double Cashflow;
+    private Double PriceT;
+    private Double PriceTm1;
     private Double pchange;
-    private Integer PL;
-    private Integer PricePL;
-    private Integer TradePL;
+    private Double PL;
+    private Double PricePL;
+    private Double TradePL;
 
-    public Tradedto(){
+    public Tradedto() {
 
-    }
-    public Tradedto(String Stocks,String Name,Integer PositionT,Integer PositionTm1,Double TradePrice,Integer Cashflow,Integer PriceT,Integer PriceTm1,Double pchange,Integer PL,Integer PricePL,Integer TradePL){
-        this.Stocks=Stocks;
-        this.Name=Name;
-        this.PositionT=PositionT;
-        this.PositionTm1=PositionTm1;
-        this.TradePrice=TradePrice;
-        this.Cashflow=Cashflow;
-        this.PriceT=PriceT;
-        this.PriceTm1=PriceTm1;
-        this.pchange=pchange;
-        this.PL=PL;
-        this.PricePL=PricePL;
-        this.TradePL=TradePL;
     }
 
     public String getStocks() {
@@ -48,19 +34,19 @@ public class Tradedto {
         Name = name;
     }
 
-    public Integer getPositionT() {
+    public Double getPositionT() {
         return PositionT;
     }
 
-    public void setPositionT(Integer positionT) {
+    public void setPositionT(Double positionT) {
         PositionT = positionT;
     }
 
-    public Integer getPositionTm1() {
+    public Double getPositionTm1() {
         return PositionTm1;
     }
 
-    public void setPositionTm1(Integer positionTm1) {
+    public void setPositionTm1(Double positionTm1) {
         PositionTm1 = positionTm1;
     }
 
@@ -72,27 +58,27 @@ public class Tradedto {
         TradePrice = tradePrice;
     }
 
-    public Integer getCashflow() {
+    public Double getCashflow() {
         return Cashflow;
     }
 
-    public void setCashflow(Integer cashflow) {
+    public void setCashflow(Double cashflow) {
         Cashflow = cashflow;
     }
 
-    public Integer getPriceT() {
+    public Double getPriceT() {
         return PriceT;
     }
 
-    public void setPriceT(Integer priceT) {
+    public void setPriceT(Double priceT) {
         PriceT = priceT;
     }
 
-    public Integer getPriceTm1() {
+    public Double getPriceTm1() {
         return PriceTm1;
     }
 
-    public void setPriceTm1(Integer priceTm1) {
+    public void setPriceTm1(Double priceTm1) {
         PriceTm1 = priceTm1;
     }
 
@@ -104,46 +90,44 @@ public class Tradedto {
         this.pchange = pchange;
     }
 
-    public Integer getPL() {
+    public Double getPL() {
         return PL;
     }
 
-    public void setPL(Integer PL) {
+    public void setPL(Double PL) {
         this.PL = PL;
     }
 
-    public Integer getPricePL() {
+    public Double getPricePL() {
         return PricePL;
     }
 
-    public void setPricePL(Integer pricePL) {
+    public void setPricePL(Double pricePL) {
         PricePL = pricePL;
     }
 
-    public Integer getTradePL() {
+    public Double getTradePL() {
         return TradePL;
     }
 
-    public void setTradePL(Integer tradePL) {
+    public void setTradePL(Double tradePL) {
         TradePL = tradePL;
     }
 
-    @Override
-    public String toString() {
-        return "Tradedto{" +
-                "Stocks='" + Stocks + '\'' +
-                ", Name='" + Name + '\'' +
-                ", PositionT=" + PositionT +
-                ", PositionTm1=" + PositionTm1 +
-                ", TradePrice=" + TradePrice +
-                ", Cashflow=" + Cashflow +
-                ", PriceT=" + PriceT +
-                ", PriceTm1=" + PriceTm1 +
-                ", pchange=" + pchange +
-                ", PL=" + PL +
-                ", PricePL=" + PricePL +
-                ", TradePL=" + TradePL +
-                '}';
+    public Tradedto(String stocks, String name, Double positionT, Double positionTm1, Double tradePrice, Double cashflow, Double priceT, Double priceTm1, Double pchange, Double PL, Double pricePL, Double tradePL) {
+        Stocks = stocks;
+        Name = name;
+        PositionT = positionT;
+        PositionTm1 = positionTm1;
+        TradePrice = tradePrice;
+        Cashflow = cashflow;
+        PriceT = priceT;
+        PriceTm1 = priceTm1;
+        this.pchange = pchange;
+        this.PL = PL;
+        PricePL = pricePL;
+        TradePL = tradePL;
     }
 }
+
 

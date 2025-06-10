@@ -35,6 +35,8 @@
 
             <!-- Controls row -->
             <HBox spacing="10" style="-fx-background-color: white;" alignment="CENTER_LEFT">
+                <Button fx:id="exportButton" text="Export" />
+
                 <Button fx:id="loadButton" text="Load" onAction="#onLoadButtonClick"/>
                 <Button fx:id="saveBtn" text="Save" disable="true"/>
                 <DatePicker fx:id="tradeDatePicker">

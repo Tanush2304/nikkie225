@@ -6,7 +6,12 @@ import com.nichi.nikkie225.model.dao.Pricedto;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.stage.FileChooser;
+import javafx.util.Callback;
 
+import java.io.File;
+import java.io.PrintWriter;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -14,26 +19,22 @@ import java.util.stream.Collectors;
 
 public class HelloController {
 
-    @FXML
-    private Label usernameLabel;
-
-
-
-
+    @FXML private Label usernameLabel;
+    @FXML private Button exportButton;
 
     @FXML private TableView<Tradedto> tableView;
     @FXML private TableColumn<Tradedto, String> stocksCol;
     @FXML private TableColumn<Tradedto, String> nameCol;
-    @FXML private TableColumn<Tradedto, Integer> positionTCol;
-    @FXML private TableColumn<Tradedto, Integer> positionTMinus1Col;
+    @FXML private TableColumn<Tradedto, Double> positionTCol;
+    @FXML private TableColumn<Tradedto, Double> positionTMinus1Col;
     @FXML private TableColumn<Tradedto, Double> tradePriceCol;
-    @FXML private TableColumn<Tradedto, Integer> cashflowCol;
-    @FXML private TableColumn<Tradedto, Integer> priceTCol;
-    @FXML private TableColumn<Tradedto, Integer> priceTMinus1Col;
+    @FXML private TableColumn<Tradedto, Double> cashflowCol;
+    @FXML private TableColumn<Tradedto, Double> priceTCol;
+    @FXML private TableColumn<Tradedto, Double> priceTMinus1Col;
     @FXML private TableColumn<Tradedto, Double> percentChangeCol;
-    @FXML private TableColumn<Tradedto, Integer> plCol;
-    @FXML private TableColumn<Tradedto, Integer> pricePLCol;
-    @FXML private TableColumn<Tradedto, Integer> tradePLCol;
+    @FXML private TableColumn<Tradedto, Double> plCol;
+    @FXML private TableColumn<Tradedto, Double> pricePLCol;
+    @FXML private TableColumn<Tradedto, Double> tradePLCol;
 
     @FXML private DatePicker tradeDatePicker;
     @FXML private Button loadButton;
@@ -41,29 +42,50 @@ public class HelloController {
     private final TradeService trade = new TradeService();
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 
-
     @FXML
     public void initialize() {
+        String username = System.getProperty("user.name");
+        usernameLabel.setText("USERNAME : " + username);
 
-        String username=System.getProperty("user.name");
-        usernameLabel.setText("USERNAME"+" : "+username);
 
 
         stocksCol.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getStocks()));
         nameCol.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getName()));
-        positionTCol.setCellValueFactory(c -> new javafx.beans.property.SimpleIntegerProperty(c.getValue().getPositionT()).asObject());
-        positionTMinus1Col.setCellValueFactory(c -> new javafx.beans.property.SimpleIntegerProperty(c.getValue().getPositionTm1()).asObject());
+        positionTCol.setCellValueFactory(c -> new javafx.beans.property.SimpleDoubleProperty(c.getValue().getPositionT()).asObject());
+        positionTMinus1Col.setCellValueFactory(c -> new javafx.beans.property.SimpleDoubleProperty(c.getValue().getPositionTm1()).asObject());
         tradePriceCol.setCellValueFactory(c -> new javafx.beans.property.SimpleDoubleProperty(c.getValue().getTradePrice()).asObject());
-        cashflowCol.setCellValueFactory(c -> new javafx.beans.property.SimpleIntegerProperty(c.getValue().getCashflow()).asObject());
-        priceTCol.setCellValueFactory(c -> new javafx.beans.property.SimpleIntegerProperty(c.getValue().getPriceT()).asObject());
-        priceTMinus1Col.setCellValueFactory(c -> new javafx.beans.property.SimpleIntegerProperty(c.getValue().getPriceTm1()).asObject());
+        cashflowCol.setCellValueFactory(c -> new javafx.beans.property.SimpleDoubleProperty(c.getValue().getCashflow()).asObject());
+        priceTCol.setCellValueFactory(c -> new javafx.beans.property.SimpleDoubleProperty(c.getValue().getPriceT()).asObject());
+        priceTMinus1Col.setCellValueFactory(c -> new javafx.beans.property.SimpleDoubleProperty(c.getValue().getPriceTm1()).asObject());
         percentChangeCol.setCellValueFactory(c -> new javafx.beans.property.SimpleDoubleProperty(c.getValue().getPchange()).asObject());
-        plCol.setCellValueFactory(c -> new javafx.beans.property.SimpleIntegerProperty(c.getValue().getPL()).asObject());
-        pricePLCol.setCellValueFactory(c -> new javafx.beans.property.SimpleIntegerProperty(c.getValue().getPricePL()).asObject());
-        tradePLCol.setCellValueFactory(c -> new javafx.beans.property.SimpleIntegerProperty(c.getValue().getTradePL()).asObject());
+        plCol.setCellValueFactory(c -> new javafx.beans.property.SimpleDoubleProperty(c.getValue().getPL()).asObject());
+        pricePLCol.setCellValueFactory(c -> new javafx.beans.property.SimpleDoubleProperty(c.getValue().getPricePL()).asObject());
+        tradePLCol.setCellValueFactory(c -> new javafx.beans.property.SimpleDoubleProperty(c.getValue().getTradePL()).asObject());
+
+        Callback<TableColumn<Tradedto, Double>, TableCell<Tradedto, Double>> formatter = column -> new TableCell<>() {
+            private final DecimalFormat df = new DecimalFormat("#,##0.00");
+
+            @Override
+            protected void updateItem(Double value, boolean empty) {
+                super.updateItem(value, empty);
+                setText(empty || value == null ? null : df.format(value));
+            }
+        };
+
+        positionTCol.setCellFactory(formatter);
+        positionTMinus1Col.setCellFactory(formatter);
+        tradePriceCol.setCellFactory(formatter);
+        cashflowCol.setCellFactory(formatter);
+        priceTCol.setCellFactory(formatter);
+        priceTMinus1Col.setCellFactory(formatter);
+        percentChangeCol.setCellFactory(formatter);
+        plCol.setCellFactory(formatter);
+        pricePLCol.setCellFactory(formatter);
+        tradePLCol.setCellFactory(formatter);
 
         tradeDatePicker.setValue(LocalDate.now());
         loadButton.setOnAction(e -> onLoadButtonClick());
+        exportButton.setOnAction(e->onExportButtonClick());
     }
 
     @FXML
@@ -74,7 +96,8 @@ public class HelloController {
             return;
         }
 
-        List<TradeEntry> allTrades = trade.getDataTradeUntil(java.sql.Date.valueOf(currentDate));
+        List<TradeEntry> allTradesUpToT = trade.getDataTradeUntil(java.sql.Date.valueOf(currentDate));
+        List<TradeEntry> allTradesUpToTm1 = trade.getDataTradeUntil(java.sql.Date.valueOf(currentDate.minusDays(1)));
         List<Pricedto> priceList = trade.price();
 
         Map<String, TreeMap<LocalDate, Double>> priceMap = new HashMap<>();
@@ -87,90 +110,131 @@ public class HelloController {
             }
         }
 
-        Map<String, Integer> tradePLMap = new HashMap<>();
-        for (TradeEntry t : allTrades) {
-            int signTradePL = t.getSide().equalsIgnoreCase("b") ? -1 : +1;
-            tradePLMap.merge(
-                    t.getCode(),
-                    t.getTradeprice() * t.getQuantity() * signTradePL,
-                    Integer::sum
-            );
-        }
-
-        LocalDate prevDate = currentDate.minusDays(1);
-        List<TradeEntry> before = trade.getDataTradeUntil(java.sql.Date.valueOf(prevDate));
-        Map<String, Integer> posTm1 = new HashMap<>();
-        for (TradeEntry t : before) {
+        Map<String, Integer> positionAtT = new HashMap<>();
+        for (TradeEntry t : allTradesUpToT) {
             int sign = t.getSide().equalsIgnoreCase("b") ? +1 : -1;
-            posTm1.merge(t.getCode(), t.getQuantity() * sign, Integer::sum);
+            positionAtT.merge(t.getCode(), (int) (t.getQuantity() * sign), Integer::sum);
         }
 
-        Map<String, List<TradeEntry>> todayMap = allTrades.stream()
+        Map<String, Integer> positionAtTm1 = new HashMap<>();
+        for (TradeEntry t : allTradesUpToTm1) {
+            int sign = t.getSide().equalsIgnoreCase("b") ? +1 : -1;
+            positionAtTm1.merge(t.getCode(), (int) (t.getQuantity() * sign), Integer::sum);
+        }
+
+        Map<String, List<TradeEntry>> tradesOnDate = allTradesUpToT.stream()
                 .filter(t -> {
                     try {
                         return LocalDate.parse(t.getTradedate(), formatter).equals(currentDate);
-                    } catch (Exception ex) {
+                    } catch (Exception e) {
                         return false;
                     }
                 })
                 .collect(Collectors.groupingBy(TradeEntry::getCode));
 
+        Map<String, List<TradeEntry>> allTradesGrouped = allTradesUpToT.stream()
+                .collect(Collectors.groupingBy(TradeEntry::getCode));
+
         List<Tradedto> rows = new ArrayList<>();
-        for (var en : todayMap.entrySet()) {
-            String code = en.getKey();
-            List<TradeEntry> trades = en.getValue();
+        for (var entry : tradesOnDate.entrySet()) {
+            String code = entry.getKey();
+            List<TradeEntry> trades = entry.getValue();
             String name = trades.get(0).getName();
 
-            int netQty = 0, cashflow = 0;
-            double sumSignedValue = 0, sumSignedQty = 0;
+            double netQty = 0.0;
+            double cashflow = 0.0;
+            double signedValueSum = 0.0;
+            double signedQtySum = 0.0;
 
             for (TradeEntry t : trades) {
-                int qty = t.getQuantity();
-                int price = t.getTradeprice();
-                int signQty = t.getSide().equalsIgnoreCase("b") ? +1 : -1;   // for position
-                int signCash = t.getSide().equalsIgnoreCase("b") ? -1 : +1;  // for cashflow
+                double qty = t.getQuantity();
+                double price = t.getTradeprice();
+
+                int signQty = t.getSide().equalsIgnoreCase("b") ? +1 : -1;
+                int signCash = t.getSide().equalsIgnoreCase("b") ? -1 : +1;
 
                 netQty += signQty * qty;
-                cashflow += signCash * price * qty;
-
-                sumSignedValue += signQty * price * qty;
-                sumSignedQty += signQty * qty;
+                cashflow += signCash * (price * qty);
+                signedValueSum += signQty * (price * qty);
+                signedQtySum += signQty * qty;
             }
 
-            double rawTP = sumSignedQty != 0 ? sumSignedValue / sumSignedQty : 0.0;
-            double tradePrice = Math.round(rawTP * 100.0) / 100.0;
+            double tradePrice = signedQtySum != 0 ? signedValueSum / signedQtySum : 0.0;
 
-            int positionTm1 = posTm1.getOrDefault(code, 0);
+            double positionTVal = positionAtT.getOrDefault(code, 0);
+            double positionTm1Val = positionAtTm1.getOrDefault(code, 0);
 
-            var m = priceMap.getOrDefault(code, new TreeMap<>());
-            var eT = m.floorEntry(currentDate);
-            var eM1 = eT != null ? m.lowerEntry(eT.getKey()) : null;
-            double priceT = eT != null ? eT.getValue() : 0.0;
-            double priceTm1 = eM1 != null ? eM1.getValue() : 0.0;
+            TreeMap<LocalDate, Double> pricesForCode = priceMap.getOrDefault(code, new TreeMap<>());
+            double priceT = pricesForCode.floorEntry(currentDate) != null ? pricesForCode.floorEntry(currentDate).getValue() : 0.0;
+            double priceTm1 = pricesForCode.floorEntry(currentDate.minusDays(1)) != null ? pricesForCode.floorEntry(currentDate.minusDays(1)).getValue() : 0.0;
+            double pctChange = priceTm1 != 0.0 ? ((priceT - priceTm1) * 100.0 / priceTm1) : 0.0;
+            double pricePL = positionTVal * priceT - positionTm1Val * priceTm1;
 
-            double rawPct = priceTm1 != 0.0 ? (priceT - priceTm1) * 100.0 / priceTm1 : 0.0;
-            double pct = Math.round(rawPct * 100.0) / 100.0;
 
-            int pricePL = (int) Math.round(netQty * priceT - positionTm1 * priceTm1);
-            int PL = pricePL + cashflow;
-            int tradePL = cashflow;
+            double totalCashflow = 0.0;
+            List<TradeEntry> tradesAll = allTradesGrouped.getOrDefault(code, Collections.emptyList());
+            for (TradeEntry t : tradesAll) {
+                double qty = t.getQuantity();
+                double price = t.getTradeprice();
+                int signCash = t.getSide().equalsIgnoreCase("b") ? -1 : +1;
+                totalCashflow += signCash * (price * qty);
+            }
+
+            double PL = pricePL + cashflow;
+            double tradePL = totalCashflow;
 
             Tradedto dto = new Tradedto(
                     code, name,
-                    netQty, positionTm1,
+                    positionTVal, positionTm1Val,
                     tradePrice, cashflow,
-                    (int) priceT, (int) priceTm1,
-                    pct, PL, pricePL, tradePL
+                    priceT, priceTm1,
+                    pctChange, PL, pricePL, tradePL
             );
-            System.out.println(dto);
+
             rows.add(dto);
         }
 
         tableView.setItems(FXCollections.observableArrayList(rows));
     }
 
+
+    private void onExportButtonClick(){
+        FileChooser fileChooser=new FileChooser();
+        fileChooser.setTitle("csv file export madtha idene");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Csv file","*.csv"));
+        fileChooser.setInitialFileName("MointerTL_data");
+
+
+        File file=fileChooser.showSaveDialog(tableView.getScene().getWindow());
+        if(file!=null){
+            try(PrintWriter writer=new PrintWriter(file)) {
+                writer.println("code,Name,PositionT,PositionT-1,TradePrice,Cashflow,PriceT,PriceT-1,%Change,PL,PricePL,TradePL");
+                for (Tradedto dto: tableView.getItems()){
+                    writer.printf("%s,%s,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f%n",
+                            dto.getStocks(), dto.getName(),
+                            dto.getPositionT(), dto.getPositionTm1(),
+                            dto.getTradePrice(), dto.getCashflow(),
+                            dto.getPriceT(), dto.getPriceTm1(),
+                            dto.getPchange(), dto.getPL(),
+                            dto.getPricePL(), dto.getTradePL()
+                    );
+
+                }
+                showAlert("exportuu Successfully aythu!!!", "yes Data export aythuuuuu! " + file.getAbsolutePath());
+
+            }
+            catch (Exception e){
+                showAlert("killa killa nan export agkilla error ide",e.getMessage());
+                e.printStackTrace();
+            }
+
+
+        }
+
+    }
+
     private void showAlert(String title, String message) {
-        Alert a = new Alert(Alert.AlertType.WARNING);
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
         a.setTitle(title);
         a.setContentText(message);
         a.showAndWait();

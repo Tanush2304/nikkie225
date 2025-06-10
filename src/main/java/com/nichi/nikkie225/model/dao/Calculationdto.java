@@ -5,17 +5,21 @@ public class Calculationdto {
     private String name;
     private String tradedate;
     private String side;
-    private int tradeprice;
-    private int quantity;
-    private int tradepriceofquantity;
-    private int minusorplus;
-    private int quantityofside;
+    private Double tradeprice;
+    private Double quantity;
+    private Double tradepriceofquantity;
+    private Double minusorplus;
+    private Double quantityofside;
 
-    public int getQuantityofside() {
-        return quantityofside;
-    }
-
-    public void setQuantityofside(int quantityofside) {
+    public Calculationdto(String code, String name, String tradedate, String side, Double tradeprice, Double quantity, Double tradepriceofquantity, Double minusorplus, Double quantityofside) {
+        this.code = code;
+        this.name = name;
+        this.tradedate = tradedate;
+        this.side = side;
+        this.tradeprice = tradeprice;
+        this.quantity = quantity;
+        this.tradepriceofquantity = tradepriceofquantity;
+        this.minusorplus = minusorplus;
         this.quantityofside = quantityofside;
     }
 
@@ -51,64 +55,43 @@ public class Calculationdto {
         this.side = side;
     }
 
-    public int getTradeprice() {
+    public Double getTradeprice() {
         return tradeprice;
     }
 
-    public void setTradeprice(int tradeprice) {
+    public void setTradeprice(Double tradeprice) {
         this.tradeprice = tradeprice;
     }
 
-    public int getQuantity() {
+    public Double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Double quantity) {
         this.quantity = quantity;
     }
 
-    public int getTradepriceofquantity() {
+    public Double getTradepriceofquantity() {
         return tradepriceofquantity;
     }
 
-    public void setTradepriceofquantity(int tradepriceofquantity) {
+    public void setTradepriceofquantity(Double tradepriceofquantity) {
         this.tradepriceofquantity = tradepriceofquantity;
     }
 
-    public int getMinusorplus() {
+    public Double getMinusorplus() {
         return minusorplus;
     }
 
-    public void setMinusorplus(int minusorplus) {
+    public void setMinusorplus(Double minusorplus) {
         this.minusorplus = minusorplus;
     }
 
-    public Calculationdto(String code, String name, String tradedate, String side, int tradeprice, int quantity, int tradepriceofquantity, int minusorplus, int quantityofside) {
-        this.code = code;
-        this.name = name;
-        this.tradedate = tradedate;
-        this.side = side;
-        this.tradeprice = tradeprice;
-        this.quantity = quantity;
-        this.tradepriceofquantity = tradepriceofquantity;
-        this.minusorplus = minusorplus;
+    public Double getQuantityofside() {
+        return quantityofside;
+    }
+
+    public void setQuantityofside(Double quantityofside) {
         this.quantityofside = quantityofside;
-    }
-    public Calculationdto() {
-    }
-
-    @Override
-    public String toString() {
-        return "Calculationdto{" +
-                "code='" + code + '\'' +
-                ", name='" + name + '\'' +
-                ", tradedate='" + tradedate + '\'' +
-                ", side='" + side + '\'' +
-                ", tradeprice=" + tradeprice +
-                ", quantity=" + quantity +
-                ", tradepriceofquantity=" + tradepriceofquantity +
-                ", minusorplus=" + minusorplus +
-                ", quantityofside=" + quantityofside +
-                '}';
     }
 }

@@ -5,7 +5,7 @@ public class Pricedto {
     private String dt;
     private String code;
     private String market;
-    private double price;
+    private Double price;
 
     public Pricedto(String dt, String code, String market, double price) {
         this.dt = dt;
@@ -42,7 +42,7 @@ public class Pricedto {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
