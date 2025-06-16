@@ -71,6 +71,7 @@
                 <TableColumn fx:id="plCol" text="PL"/>
                 <TableColumn fx:id="pricePLCol" text="Price PL"/>
                 <TableColumn fx:id="tradePLCol" text="Trade PL"/>
+                <TableColumn fx:id="totalPLCol" text="Total PL"/>
             </columns>
         </TableView>
     </center>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.nichi.nikkie225.TradeDetailsController"
+            prefWidth="900" prefHeight="500">
+
+    <top>
+        <Label fx:id="headerLabel" text="Trade Details" style="-fx-font-size: 18px; -fx-padding: 10;"/>
+    </top>
+
+    <center>
+        <TableView fx:id="tradeDetailsTable">
+            <columns>
+                <TableColumn fx:id="codeCol" text="Code" prefWidth="80"/>
+                <TableColumn fx:id="tradeNoCol" text="Trade No" prefWidth="80"/>
+                <TableColumn fx:id="nameCol" text="Name" prefWidth="150"/>
+                <TableColumn fx:id="qtyCol" text="Quantity" prefWidth="80"/>
+                <TableColumn fx:id="sideCol" text="Side" prefWidth="60"/>
+                <TableColumn fx:id="dateCol" text="Trade Date" prefWidth="100"/>
+                <TableColumn fx:id="priceCol" text="Trade Price" prefWidth="100"/>
+                <TableColumn fx:id="isDeletedCol" text="Is Deleted" prefWidth="80"/>
+            </columns>
+        </TableView>
+    </center>
+
+</BorderPane>

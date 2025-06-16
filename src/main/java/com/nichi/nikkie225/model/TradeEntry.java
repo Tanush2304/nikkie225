@@ -15,9 +15,10 @@ public class TradeEntry {
 
     private Double tradeprice;
     private Double quantity;
-    private String isdeleted;
+    private Integer isdeleted;
 
-    public TradeEntry(Integer tradeno, String code, String name, String tradedate, String side, Double tradeprice, Double quantity,String isdeleted) {
+
+    public TradeEntry(Integer tradeno, String code, String name, String tradedate, String side, Double tradeprice, Double quantity,Integer isdeleted) {
         this.tradeno = tradeno;
         this.code = code;
         this.name = name;
@@ -83,11 +84,11 @@ public class TradeEntry {
     public void setQuantity(Double quantity) {
         this.quantity = quantity;
     }
-    public String getIsdeleted() {
+    public Integer getIsdeleted() {
         return isdeleted;
     }
 
-    public void setIsdeleted(String side) {
+    public void setIsdeleted(Integer side) {
         this.isdeleted = isdeleted;
     }
 }

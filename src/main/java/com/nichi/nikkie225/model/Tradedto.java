@@ -5,14 +5,15 @@ public class Tradedto {
     private String Name;
     private Double PositionT;
     private Double PositionTm1;
-    private double TradePrice;
-    private double Cashflow;
+    private Double TradePrice;
+    private Double Cashflow;
     private Double PriceT;
     private Double PriceTm1;
     private Double pchange;
     private Double PL;
     private Double PricePL;
     private Double TradePL;
+    private Double TotalPL;
 
     public Tradedto() {
 
@@ -114,7 +115,15 @@ public class Tradedto {
         TradePL = tradePL;
     }
 
-    public Tradedto(String stocks, String name, Double positionT, Double positionTm1, Double tradePrice, Double cashflow, Double priceT, Double priceTm1, Double pchange, Double PL, Double pricePL, Double tradePL) {
+    public Double getTotalPL() {
+        return TotalPL;
+    }
+
+    public void setTotalPL(Double totalPL) {
+        TotalPL = totalPL;
+    }
+
+    public Tradedto(String stocks, String name, Double positionT, Double positionTm1, Double tradePrice, Double cashflow, Double priceT, Double priceTm1, Double pchange, Double PL, Double pricePL, Double tradePL, Double totalPL) {
         Stocks = stocks;
         Name = name;
         PositionT = positionT;
@@ -127,7 +136,6 @@ public class Tradedto {
         this.PL = PL;
         PricePL = pricePL;
         TradePL = tradePL;
+        TotalPL = totalPL;
     }
 }
-
-

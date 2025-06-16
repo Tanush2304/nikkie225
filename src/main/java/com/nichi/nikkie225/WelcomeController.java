@@ -40,27 +40,26 @@ public class WelcomeController {
     @FXML
     private void handleTradeEntryButton() {
         try {
-            // Path to the external JAR (use "file:" prefix)
+
             String jarPath = "file:/C:/Users/nichiuser/Desktop/nichi-in-project/nikkie225/Nifty50Frontend.jar";
 
-            // Create class loader with JAR
+
             URL[] urls = { new URL(jarPath) };
             ClassLoader jarClassLoader = new URLClassLoader(urls);
 
-            // FXML path inside JAR (based on your jar content structure)
+
             URL fxmlUrl = jarClassLoader.getResource("com/nichi/nifty50frontend/TradeEntryView.fxml");
 
             if (fxmlUrl == null) {
-                System.err.println("❌ FXML file not found inside the JAR.");
+                System.err.println(" FXML file not found inside the JAR.");
                 return;
             }
 
-            // Load FXML from the JAR using the custom class loader
+
             FXMLLoader loader = new FXMLLoader(fxmlUrl);
-            loader.setClassLoader(jarClassLoader); // This is important!
+            loader.setClassLoader(jarClassLoader);
             Node view = loader.load();
 
-            // Replace content in the current StackPane
             contentPane.getChildren().setAll(view);
             setActiveButton(tradeEntryButton);
 

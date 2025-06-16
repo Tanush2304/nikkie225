@@ -16,13 +16,15 @@ import static com.nichi.nikkie225.model.Database.getConnection;
 public class TradeService {
 
 
-    public List<TradeEntry> getDataTradeUntil(Date date) {
+    public List<TradeEntry> getDataTradeUntil(String dateStr) {
         List<TradeEntry> master = new ArrayList<>();
         try (Connection conn = getConnection();
              PreparedStatement stm = conn.prepareStatement(
-                     "SELECT * FROM tradeslist WHERE tradedate <= ? ORDER BY tradedate, tradeno")) {
-            stm.setDate(1, date);
+                     "SELECT * FROM tradeslist WHERE tradedate <= ? AND isdeleted=0 order by tradedate,tradeno;")) {
+
+            stm.setString(1, dateStr);
             ResultSet rs = stm.executeQuery();
+
             while (rs.next()) {
                 TradeEntry trade = new TradeEntry(
                         rs.getInt("tradeno"),
@@ -30,19 +32,18 @@ public class TradeService {
                         rs.getString("name"),
                         rs.getString("tradedate"),
                         rs.getString("side"),
-
                         rs.getDouble("tradeprice"),
                         rs.getDouble("quantity"),
-                        rs.getString("isdeleted")
-                        );
+                        rs.getInt("isdeleted")
+                );
                 master.add(trade);
             }
+
             return master;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
-
 
     public List<Pricedto> price() {
         List<Pricedto> master1 = new ArrayList<>();
@@ -67,7 +68,7 @@ public class TradeService {
     }
 
     private Map<String, Integer> computePositionUntil(Date date) {
-        List<TradeEntry> trades = getDataTradeUntil(date);
+        List<TradeEntry> trades = getDataTradeUntil(String.valueOf(date));
         Map<String, Integer> positionMap = new HashMap<>();
 
         for (TradeEntry entry : trades) {
