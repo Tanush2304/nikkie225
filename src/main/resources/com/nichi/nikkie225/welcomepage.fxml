@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
+
 <BorderPane xmlns="http://javafx.com/javafx/8"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.nichi.nikkie225.WelcomeController"
@@ -15,6 +16,10 @@
             <Button text="Trade Entry"
                     fx:id="tradeEntryButton"
                     onAction="#handleTradeEntryButton"
+                    style="-fx-font-size: 14px; -fx-text-fill: white; -fx-background-color: #4682B4;" />
+            <Button text="DMA"
+                    fx:id="dmaGraphButton"
+                    onAction="#handleDmaGraphButton"
                     style="-fx-font-size: 14px; -fx-text-fill: white; -fx-background-color: #4682B4;" />
         </HBox>
     </top>

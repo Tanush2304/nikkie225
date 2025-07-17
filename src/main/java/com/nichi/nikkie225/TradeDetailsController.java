@@ -22,7 +22,7 @@ public class TradeDetailsController {
     @FXML private TableColumn<TradeEntry, String> sideCol;
     @FXML private TableColumn<TradeEntry, String> dateCol;
     @FXML private TableColumn<TradeEntry, Number> priceCol;
-    @FXML private TableColumn<TradeEntry, Number> isDeletedCol;
+
 
     public void setTradeDetails(String stockCode, List<TradeEntry> trades) {
         headerLabel.setText( stockCode);
@@ -34,7 +34,6 @@ public class TradeDetailsController {
         sideCol.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getSide()));
         dateCol.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getTradedate()));
         priceCol.setCellValueFactory(c -> new SimpleDoubleProperty(c.getValue().getTradeprice()));
-        isDeletedCol.setCellValueFactory(c -> new SimpleIntegerProperty(c.getValue().getIsdeleted()));
 
         tradeDetailsTable.setItems(FXCollections.observableArrayList(trades));
     }

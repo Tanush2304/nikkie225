@@ -1,0 +1,25 @@
+.root {
+    -fx-base: white;
+    -fx-background: white;
+    -fx-text-fill: black;
+}
+
+.label {
+    -fx-text-fill: black;
+}
+
+.chart-plot-background {
+    -fx-background-color: white;
+}
+
+.chart-legend {
+    -fx-text-fill: black;
+}
+
+.chart-series-line {
+    -fx-stroke-width: 2px;
+}
+
+.axis-label, .chart-title {
+    -fx-text-fill: black;
+}

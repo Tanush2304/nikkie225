@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.nichi.nikkie225.DMAGraphController"
+            prefWidth="900" prefHeight="600">
+
+
+    <top>
+        <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 10;">
+            <DatePicker fx:id="datePicker"/>
+            <ComboBox fx:id="stockComboBox" promptText="Select Stock" prefWidth="200"/>
+            <Button text="Load" onAction="#onLoadDate"/>
+        </HBox>
+    </top>
+
+
+    <center>
+        <VBox spacing="5" VBox.vgrow="ALWAYS" style="-fx-padding: 10;">
+
+            <TableView fx:id="dmaTable" VBox.vgrow="ALWAYS">
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                </columnResizePolicy>
+            </TableView>
+
+            <Pagination fx:id="pagination"/>
+        </VBox>
+    </center>
+
+</BorderPane>

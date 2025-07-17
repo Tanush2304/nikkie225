@@ -258,62 +258,88 @@ public class HelloController {
             LocalDate baseDate = tradeDatePicker.getValue();
             String formattedBaseDate = baseDate.format(formatter);
 
+      
             List<TradeEntry> tradesUpToBase = trade.getDataTradeUntil(formattedBaseDate).stream()
                     .filter(t -> t.getCode().equalsIgnoreCase(stockCode))
                     .collect(Collectors.toList());
 
             if (tradesUpToBase.isEmpty()) {
-                showAlert("No Trades", "No trades found for " + stockCode + " up to " + baseDate);
+                showAlert("Trade details", "No trades found for " + stockCode + " up to " + baseDate);
                 return;
             }
 
-
+            List<TradeEntry> filteredTrades;
             LocalDate targetDate;
+
             if (isTm1) {
+
                 Optional<LocalDate> latestEarlierDateOpt = tradesUpToBase.stream()
                         .map(t -> LocalDate.parse(t.getTradedate(), formatter))
                         .filter(d -> d.isBefore(baseDate))
                         .max(Comparator.naturalOrder());
 
                 if (latestEarlierDateOpt.isEmpty()) {
-                    showAlert("trades illa", "munche yavadu illa trades " + stockCode  + baseDate);
+                    showAlert("Trades Details" , "No trades found for " + stockCode + " before " + baseDate);
                     return;
                 }
 
                 targetDate = latestEarlierDateOpt.get();
+                String formattedTargetDate = targetDate.format(formatter);
+
+
+                filteredTrades = trade.getDataTradeUntil(formattedTargetDate).stream()
+                        .filter(t -> t.getCode().equalsIgnoreCase(stockCode))
+                        .collect(Collectors.toList());
+
             } else {
+
+                filteredTrades = tradesUpToBase;
                 targetDate = baseDate;
             }
 
-
-            List<TradeEntry> tradesOnTargetDate = tradesUpToBase.stream()
-                    .filter(t -> LocalDate.parse(t.getTradedate(), formatter).equals(targetDate))
-                    .collect(Collectors.toList());
-
-            if (tradesOnTargetDate.isEmpty()) {
-                showAlert("No Trades", "No trades found for " + stockCode + " on " + targetDate);
+            if (filteredTrades.isEmpty()) {
+                showAlert("Trade details", "No trades found for " + stockCode + " up to " + targetDate);
                 return;
             }
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("trade_details_popup.fxml"));
             Parent root = loader.load();
             TradeDetailsController controller = loader.getController();
-            controller.setTradeDetails(stockCode, tradesOnTargetDate);
+            List<TradeEntry> adjustedTrades = filteredTrades.stream()
+                    .map(t -> {
+                        double signedQty = t.getSide().equalsIgnoreCase("b") ? t.getQuantity() : -t.getQuantity();
+                        return new TradeEntry(
+                                t.getTradeno(),
+                                t.getCode(),
+                                t.getName(),
+                                t.getTradedate(),
+                                t.getSide(),
+                                t.getTradeprice(),
+                                signedQty,
+                                t.getIsdeleted()
+                        );
+                    }).collect(Collectors.toList());
+
+            controller.setTradeDetails(stockCode, adjustedTrades);
 
             Stage popupStage = new Stage();
-            popupStage.setTitle("Trade Details: " + stockCode + " on " + targetDate);
+            popupStage.setTitle("Trade details");
             popupStage.setScene(new Scene(root));
             popupStage.initModality(Modality.APPLICATION_MODAL);
             popupStage.showAndWait();
 
         } catch (Exception e) {
             e.printStackTrace();
-            showAlert("Popup Error", "Failed to show trade details.");
+            showAlert("Error", " error.");
         }
     }
 
+
     private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION
+
+
+        );
         alert.setTitle(title);
         alert.setContentText(message);
         alert.showAndWait();

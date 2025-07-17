@@ -20,7 +20,7 @@
                 <TableColumn fx:id="sideCol" text="Side" prefWidth="60"/>
                 <TableColumn fx:id="dateCol" text="Trade Date" prefWidth="100"/>
                 <TableColumn fx:id="priceCol" text="Trade Price" prefWidth="100"/>
-                <TableColumn fx:id="isDeletedCol" text="Is Deleted" prefWidth="80"/>
+
             </columns>
         </TableView>
     </center>

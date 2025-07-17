@@ -22,6 +22,9 @@ public class WelcomeController {
     private Button tradeEntryButton;
 
     @FXML
+    private Button dmaGraphButton;
+
+    @FXML
     public void initialize() {
         try {
             loadView("hello-view.fxml");
@@ -40,30 +43,29 @@ public class WelcomeController {
     @FXML
     private void handleTradeEntryButton() {
         try {
-
-            String jarPath = "file:/C:/Users/nichiuser/Desktop/nichi-in-project/nikkie225/Nifty50Frontend.jar";
-
-
-            URL[] urls = { new URL(jarPath) };
-            ClassLoader jarClassLoader = new URLClassLoader(urls);
-
-
-            URL fxmlUrl = jarClassLoader.getResource("com/nichi/nifty50frontend/TradeEntryView.fxml");
-
-            if (fxmlUrl == null) {
-                System.err.println(" FXML file not found inside the JAR.");
-                return;
-            }
-
-
-            FXMLLoader loader = new FXMLLoader(fxmlUrl);
-            loader.setClassLoader(jarClassLoader);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("TradeEntry.fxml"));
             Node view = loader.load();
-
             contentPane.getChildren().setAll(view);
             setActiveButton(tradeEntryButton);
+        } catch (IOException e) {
+            System.err.println("Error loading Trade Entry view: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+    }
+
+    @FXML
+    private void handleDmaGraphButton() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("dma_graph.fxml"));
+            Node view = loader.load();
+
+
+            contentPane.getChildren().setAll(view);
+            setActiveButton(dmaGraphButton);
 
         } catch (Exception e) {
+            System.err.println("Error loading DMA Graph view: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -77,6 +79,8 @@ public class WelcomeController {
     private void setActiveButton(Button activeButton) {
         monitorButton.setDisable(false);
         tradeEntryButton.setDisable(false);
+        dmaGraphButton.setDisable(false);
+
         activeButton.setDisable(true);
     }
 }

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.nichi.nikkie225.TradeEntryController"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <children>
+        <TableView fx:id="tableTradeEntry" layoutY="68.0" prefHeight="477.0" prefWidth="950.0" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="68.0">
+            <columns>
+                <TableColumn fx:id="colTradeNo" text="Trade No" />
+                <TableColumn fx:id="colCode" text="Code" />
+                <TableColumn fx:id="colName" text="Name" />
+                <TableColumn fx:id="colTradeDate" text="TradeDate" />
+                <TableColumn fx:id="colSide" text="Side" />
+                <TableColumn fx:id="colTradePrice" text="TradePrice" />
+                <TableColumn fx:id="colQuantity" text="Quantity" />
+                <TableColumn fx:id="colCheck" text="Select" />
+            </columns>
+        </TableView>
+        <Button fx:id="saveBtn" layoutX="870.0" layoutY="23.0" mnemonicParsing="false" onAction="#OnClickSave" prefHeight="25.0" prefWidth="81.0" styleClass="btnloadandsave" stylesheets="@../../../css/stylesheet.css" text="Save" AnchorPane.rightAnchor="0.0" />
+        <Button fx:id="loadBtn" layoutX="765.0" layoutY="23.0" mnemonicParsing="false" onAction="#OnClickLoad" prefHeight="33.0" prefWidth="81.0" styleClass="btnloadandsave" stylesheets="@../../../css/stylesheet.css" text="Load" AnchorPane.rightAnchor="105.0" />
+        <ComboBox fx:id="filterComboBox" layoutX="4.0" layoutY="22.0" prefWidth="150.0" promptText="Filter by code" styleClass="comboboxstyle" stylesheets="@../../../css/stylesheet.css" AnchorPane.leftAnchor="0.0" />
+        <CheckBox fx:id="myCheckBox" layoutX="581.0" layoutY="32.0" mnemonicParsing="false" onAction="#onClickHideAndUnhide" text="Unhide" AnchorPane.rightAnchor="318.0" />
+        <Button fx:id="exportbtn" layoutX="666.0" layoutY="23.0" mnemonicParsing="false" onAction="#OnExport" prefHeight="33.0" prefWidth="81.0" styleClass="btnloadandsave" stylesheets="@../../../css/stylesheet.css" text="Export" AnchorPane.rightAnchor="212.0" />
+    </children>
+
+</AnchorPane>
+
+
+
