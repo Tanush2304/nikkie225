@@ -7,8 +7,6 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
-import java.net.URL;
-import java.net.URLClassLoader;
 
 public class WelcomeController {
 
@@ -41,17 +39,9 @@ public class WelcomeController {
     }
 
     @FXML
-    private void handleTradeEntryButton() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("TradeEntry.fxml"));
-            Node view = loader.load();
-            contentPane.getChildren().setAll(view);
-            setActiveButton(tradeEntryButton);
-        } catch (IOException e) {
-            System.err.println("Error loading Trade Entry view: " + e.getMessage());
-            e.printStackTrace();
-        }
-
+    private void handleTradeEntryButton() throws IOException {
+        loadView("TradeEntry.fxml");
+        setActiveButton(tradeEntryButton);
     }
 
     @FXML

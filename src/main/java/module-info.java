@@ -11,15 +11,23 @@ module com.nichi.nikkie225 {
 
 
     requires io.github.cdimascio.dotenv.java;
-    requires java.sql;
-    requires java.naming; // ✅ Add this to fix Referenceable error
+    requires java.naming;
     requires javafx.swing;
     requires jakarta.persistence;
     requires org.hibernate.orm.core;
+    requires jdk.compiler;
+    requires org.apache.logging.log4j;
+    requires jdk.jsobject;
+    requires itextpdf;
 
+    opens com.nichi.nikkie225.model to javafx.fxml;
+    opens com.nichi.nikkie225 to javafx.fxml, org.hibernate.orm.core;
+    opens com.nichi.nikkie225.model1 to org.hibernate.orm.core;
 
-    opens com.nichi.nikkie225 to javafx.fxml;
     exports com.nichi.nikkie225;
     exports com.nichi.nikkie225.model;
-    opens com.nichi.nikkie225.model to javafx.fxml;
+    exports com.nichi.nikkie225.model.dao;
+    exports com.nichi.nikkie225.model1;
+    exports com.nichi.nikkie225.dto;
+
 }

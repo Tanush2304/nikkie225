@@ -13,6 +13,8 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.sql.*;
@@ -22,6 +24,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 public class DMAGraphController {
+    private static final Logger logging = LogManager.getLogger(DMAGraphController.class);
 
     @FXML private BorderPane rootPane;
     @FXML private TableView<PriceRiskFactor> dmaTable;
@@ -119,7 +122,6 @@ public class DMAGraphController {
 
                         DMAGraphPopupController controller = loader.getController();
 
-
                         Integer selectedDt = null;
                         if (datePicker.getValue() != null) {
                             selectedDt = Integer.parseInt(datePicker.getValue().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
@@ -133,11 +135,7 @@ public class DMAGraphController {
                         popupStage.initStyle(StageStyle.DECORATED);
                         popupStage.show();
 
-
-
-
-
-            } catch (IOException e) {
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                 });
@@ -173,7 +171,7 @@ public class DMAGraphController {
 
         filteredData.setAll(fullData.stream()
                 .filter(p -> {
-                     boolean dateMatches = (selectedDate == null || p.getDt() == Integer.parseInt(selectedDate.format(DateTimeFormatter.ofPattern("yyyyMMdd"))));
+                    boolean dateMatches = (selectedDate == null || p.getDt() == Integer.parseInt(selectedDate.format(DateTimeFormatter.ofPattern("yyyyMMdd"))));
                     boolean stockMatches = (selectedStock == null || selectedStock.isEmpty() || selectedStock.equals(p.getCode()));
                     return dateMatches && stockMatches;
                 })

@@ -2,27 +2,26 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.web.WebView?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8"
-            xmlns:fx="http://javafx.com/fxml"
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.nichi.nikkie225.DMAGraphPopupController"
-            prefWidth="1200.0" prefHeight="800.0">
+            prefWidth="900" prefHeight="900">
 
     <top>
         <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 10;">
-            <Label text="Select Stock:" />
+            <Label text="Select Stock:"/>
             <ComboBox fx:id="stockSelector" prefWidth="200"/>
+
+            <Label text="Select Date:"/>
+            <DatePicker fx:id="datePicker"/>
+
+            <Button fx:id="exportPdfButton" text="Export to PDF"/>
+            <Button fx:id="exportHtmlButton" text="Export to HTML"/>
         </HBox>
     </top>
 
     <center>
-        <ScrollPane fx:id="scrollPane" fitToWidth="true" fitToHeight="true"
-                    hbarPolicy="AS_NEEDED" vbarPolicy="AS_NEEDED">
-            <VBox fx:id="chartContainer" spacing="20"
-                  style="-fx-padding: 10;"
-
-                  maxWidth="Infinity" />
-        </ScrollPane>
+        <Pane fx:id="canvasContainer"/>
     </center>
-
 </BorderPane>

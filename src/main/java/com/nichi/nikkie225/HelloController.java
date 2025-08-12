@@ -13,6 +13,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -23,6 +25,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class HelloController {
+
+    private static final Logger logging = LogManager.getLogger(HelloController.class);
 
     @FXML private Label usernameLabel;
     @FXML private Button exportButton;

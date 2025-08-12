@@ -30,6 +30,8 @@ import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
 import com.nichi.nikkie225.model.dao.StockListDAO;
 import com.nichi.nikkie225.model1.StocksList;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -40,7 +42,11 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
+
 public class TradeEntryController {
+
+    private static final Logger logging = LogManager.getLogger(TradeEntryController.class);
+
     @FXML
     private TableView<TableTradeEntry> tableTradeEntry;
     @FXML
@@ -125,7 +131,7 @@ public class TradeEntryController {
                 try {
                     TableTradeEntry trade = cell.getTableRow().getItem();
                     if (trade != null && trade.isModifiedTradeCode()) {
-                        cell.setStyle("-fx-background-color: #ffdfd5; -fx-text-fill: black; -fx-border-color: red;");
+                        cell.setStyle("-fx-background-color: #efde91; -fx-border-color: yellow; -dx-text-fill: black;");
                     }else {
                         cell.setStyle("");
                     }
@@ -154,7 +160,8 @@ public class TradeEntryController {
                 tableTradeEntry.refresh();
             }
             selectedCopy = selectedRow;
-            bounds = tradeEntryDAO.getMinMaxValue(selectedRow, getDateTime().substring(0,8));
+            System.out.println(selectedCopy);
+            bounds = tradeEntryDAO.getMinMaxValue(selectedRow, "20250611");
             Toast.show(tableTradeEntry, "The min and max value of " + selectedRow + " is " + bounds.getLowerBond()  + " to " + bounds.getHigherBond(), 2000);
         });
 
@@ -166,7 +173,7 @@ public class TradeEntryController {
                 try {
                     TableTradeEntry trade = cell.getTableRow().getItem();
                     if (trade != null && trade.isModifiedTradeCode()) {
-                        cell.setStyle("-fx-background-color: #ffdfd5; -fx-text-fill: black; -fx-border-color: red;");
+                        cell.setStyle("-fx-background-color: #efde91; -fx-border-color: yellow; -dx-text-fill: black;");
                     } else {
                         cell.setStyle("");
                     }
@@ -188,7 +195,7 @@ public class TradeEntryController {
                 try {
                     TableTradeEntry trade = cell.getTableRow().getItem();
                     if (trade != null && trade.isModifiedSide()) {
-                        cell.setStyle("-fx-background-color: #ffdfd5; -fx-text-fill: black; -fx-border-color: red;");
+                        cell.setStyle("-fx-background-color: #efde91; -fx-border-color: yellow; -dx-text-fill: black;");
                     }else {
                         cell.setStyle("");
                     }
@@ -223,8 +230,13 @@ public class TradeEntryController {
                         Tooltip tooltip = new Tooltip(bounds.getLowerBond() + " - " + bounds.getHigherBond());
                         cell.setTooltip(tooltip);
                     }
-                    if (trade != null && trade.isModifiedTradePrice()) {
+                    System.out.println(trade.getTradeNo() + " " +trade.isMisMatch());
+                    if (trade.isMisMatch()) {
                         cell.setStyle("-fx-background-color: #ffdfd5; -fx-text-fill: black; -fx-border-color: red;");
+                    } else if (trade.isMatch()) {
+                        cell.setStyle("-fx-background-color: #55DD33; -fx-text-fill: black; -fx-border-color: green;");
+                    } else if (trade != null && trade.isModifiedTradePrice()) {
+                        cell.setStyle("-fx-background-color: #efde91; -fx-border-color: yellow; -dx-text-fill: black;");
                     }else {
                         cell.setStyle("");
                     }
@@ -247,6 +259,15 @@ public class TradeEntryController {
                 trade.setTradePrice(newValue);
                 tableTradeEntry.refresh();
             }
+            if (newValue < bounds.getLowerBond() || newValue > bounds.getHigherBond()) {
+                trade.setMisMatch(true);
+                trade.setMatch(false);
+                tableTradeEntry.refresh();
+            }else if (newValue > bounds.getLowerBond() || newValue < bounds.getHigherBond()) {
+                trade.setMisMatch(false);
+                trade.setMatch(true);
+                tableTradeEntry.refresh();
+            }
         });
 
         colQuantity.setEditable(true);
@@ -259,7 +280,7 @@ public class TradeEntryController {
                 try {
                     TableTradeEntry trade = cell.getTableRow().getItem();
                     if (trade != null && trade.isModifiedQuantity()) {
-                        cell.setStyle("-fx-background-color: #ffdfd5; -fx-text-fill: black; -fx-border-color: red;");
+                        cell.setStyle("-fx-background-color: #efde91; -fx-border-color: yellow; -dx-text-fill: black;");
                     }else {
                         cell.setStyle("");
                     }
@@ -427,7 +448,7 @@ public class TradeEntryController {
 
 
     @FXML
-    public void OnClickSave(ActionEvent event)  {
+    public void OnClickSave(ActionEvent event) {
 
         for (TableTradeEntry entry : tradeData) {
             if (!isValid(entry)){
@@ -501,6 +522,7 @@ public class TradeEntryController {
 
         tradeEntryDAO.getMinMaxValue("AXISBANK", "20250611");
 
+        tableTradeEntry.refresh();
     }
 
     @FXML
@@ -666,28 +688,6 @@ public class TradeEntryController {
         try {
             if (comp.getTradePrice() < bounds.getLowerBond() || comp.getTradePrice() > bounds.getHigherBond()) {
                 showAlert("The min and max value of " + selectedCopy + "should be " + bounds.getLowerBond() + " to " + bounds.getHigherBond());
-                colTradePrice.setCellFactory(column -> new TextFieldTableCell<TableTradeEntry, Double>(new DoubleStringConverter()) {
-                    @Override
-                    public void updateItem(Double item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty || item == null) {
-                            setText(null);
-                            setStyle("");
-                        } else {
-                            setText(String.valueOf(item));
-                            TableTradeEntry trade = getTableRow().getItem();
-                            if (item < bounds.getLowerBond() || item > bounds.getHigherBond()) {
-                                if (trade.getTradeNo() == comp.getTradeNo()) {
-                                    System.out.println("Inside: " + trade.getTradeNo());
-                                    System.out.println("Inside: " + comp.getTradeNo());
-                                    setStyle("-fx-background-color: #efde91; -fx-border-color: yellow; -dx-text-fill: black;");
-                                }
-                            } else {
-                                setStyle("");
-                            }
-                        }
-                    }
-                });
                 return false;
             }
         }catch (Exception e) {

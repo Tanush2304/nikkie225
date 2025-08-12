@@ -1,12 +1,15 @@
 package com.nichi.nikkie225.model;
 
+
+import com.nichi.nikkie225.model.dao.TradeEntryHelper;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
-public class TableTradeEntry
-{
+import java.util.List;
+
+public class TableTradeEntry {
     private SimpleIntegerProperty tradeNo;
     private SimpleStringProperty code;
     private SimpleStringProperty name;
@@ -20,6 +23,8 @@ public class TableTradeEntry
     private boolean modifiedQuantity = false;
     private boolean modifiedSide = false;
     private boolean modifiedTradeCode = false;
+    private boolean misMatch = false;
+    private boolean match = false;
 
     public TableTradeEntry(Integer tradeNo, String code, String name, String tradeDate, String side, Double tradePrice, Integer quantity, Boolean isDeleted) {
         this.tradeNo = new SimpleIntegerProperty(tradeNo);
@@ -158,6 +163,22 @@ public class TableTradeEntry
 
     public void setIsDeleted(boolean isDeleted) {
         this.isDeleted.set(isDeleted);
+    }
+
+    public boolean isMisMatch() {
+        return misMatch;
+    }
+
+    public void setMisMatch(boolean misMatch) {
+        this.misMatch = misMatch;
+    }
+
+    public boolean isMatch() {
+        return match;
+    }
+
+    public void setMatch(boolean match) {
+        this.match = match;
     }
 
     @Override

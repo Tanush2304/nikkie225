@@ -1,27 +1,25 @@
-package com.nichi.nikkie225;
+package com.nichi.nikkie225.model.dao;
 
-import com.nichi.nikkie225.dto.ComboDataDTO;
-import com.nichi.nikkie225.dto.MinMaxBound;
-import com.nichi.nikkie225.model.dao.TradeEntryHelper;
 import com.nichi.nikkie225.model1.TradeList;
-import com.nichi.nikkie225.model1.TradeListId;
-
-
 import com.nichi.nikkie225.utils.HibernateUtils;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import com.nichi.nikkie225.model1.TradeListId;
+import com.nichi.nikkie225.dto.ComboDataDTO;
+import com.nichi.nikkie225.dto.MinMaxBound;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class TradeEntryDAO {
+
     public void saveAll(List<TradeList> tradeLists) {
         Session session = HibernateUtils.getSessionFactory().openSession();
         Transaction transaction = null;
 
         try {
-            transaction = (Transaction) session.beginTransaction();
+            transaction = session.beginTransaction();
 
             for (TradeList trade : tradeLists) {
                 session.merge(trade);
@@ -73,7 +71,7 @@ public class TradeEntryDAO {
         Session session = HibernateUtils.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
-            transaction = (Transaction) session.beginTransaction();
+            transaction = session.beginTransaction();
             TradeListId tradeListId = new TradeListId(tradeNo, code);
             TradeList tradeList = session.get(TradeList.class, tradeListId);
 
@@ -96,7 +94,7 @@ public class TradeEntryDAO {
 
 
             for (var data : deletedValues) {
-                transaction = (Transaction) session.beginTransaction();
+                transaction = session.beginTransaction();
                 TradeListId tradeListId = new TradeListId(data.getTradeNo(), data.getCode());
                 TradeList trade = session.get(TradeList.class, tradeListId);
 
@@ -137,9 +135,9 @@ public class TradeEntryDAO {
         String selectMinMixValue = "SELECT lowerband, upperband from stockspricelist where code='" + code +"' and dt='" + date +"';";
         try {
             Object[] boundsValues = (Object[]) session.createNativeQuery(selectMinMixValue).getSingleResult();
-            double min = ((Number) boundsValues[0]).doubleValue();
-            double max = ((Number) boundsValues[1]).doubleValue();
-            return new MinMaxBound(min, max);
+               double min = ((Number) boundsValues[0]).doubleValue();
+               double max = ((Number) boundsValues[1]).doubleValue();
+               return new MinMaxBound(min, max);
         }catch (Exception e) {
             System.out.println(e.getMessage());
         }finally {

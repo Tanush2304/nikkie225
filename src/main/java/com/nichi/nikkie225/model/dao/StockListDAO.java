@@ -12,7 +12,7 @@ public class StockListDAO {
         Session session = HibernateUtils.getSessionFactory().openSession();
         List<StocksList> stocksLists = null;
         try {
-            Query<StocksList> query = session.createQuery("FROM StocksList", StocksList.class);
+            Query<StocksList> query = session.createQuery("FROM StocksList where n50f=1", StocksList.class);
             stocksLists = query.list();
             System.out.println("illi banthu");
         }catch (Exception e) {

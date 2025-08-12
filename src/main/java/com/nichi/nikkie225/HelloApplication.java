@@ -1,11 +1,13 @@
 package com.nichi.nikkie225;
 
+import com.nichi.nikkie225.utils.HibernateUtils;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class HelloApplication extends Application {
+
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -21,6 +23,8 @@ public class HelloApplication extends Application {
     }
 
     public static void main(String[] args) {
+        HibernateUtils.connectToDatabase();
         launch(args);
+
     }
 }

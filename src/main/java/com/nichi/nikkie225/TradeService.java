@@ -37,6 +37,7 @@ public class TradeService {
                         rs.getInt("isdeleted")
                 );
                 master.add(trade);
+                conn.close();
             }
 
             return master;
@@ -59,6 +60,7 @@ public class TradeService {
                         rs.getDouble("price")
                 );
                 master1.add(price);
+                conn.close();
             }
             return master1;
 
