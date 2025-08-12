@@ -82,7 +82,11 @@ public class TradeEntryController {
 
     private final ObservableList<TableTradeEntry> tradeData = FXCollections.observableArrayList();
     private final FilteredList<TableTradeEntry> filteredData = new FilteredList<>(tradeData, p -> true);
-    MinMaxBound bounds;
+    TradeEntryDAO tradeEntryDAO = new TradeEntryDAO();
+    List<MinMaxBound> boundsList = tradeEntryDAO.getMinMaxValues("20250812");
+    Map<String, MinMaxBound> boundMap = boundsList.stream()
+            .collect(Collectors.toMap(MinMaxBound::getCode, b -> b));
+
     String selectedCopy;
     Integer tradeNo;
 
@@ -161,7 +165,7 @@ public class TradeEntryController {
             }
             selectedCopy = selectedRow;
             System.out.println(selectedCopy);
-            bounds = tradeEntryDAO.getMinMaxValue(selectedRow, "20250611");
+            MinMaxBound bounds = boundMap.get(codeToName.getOrDefault(selectedRow, ""));
             Toast.show(tableTradeEntry, "The min and max value of " + selectedRow + " is " + bounds.getLowerBond()  + " to " + bounds.getHigherBond(), 2000);
         });
 
@@ -226,6 +230,7 @@ public class TradeEntryController {
             cell.itemProperty().addListener((obs, oldItem, newItem) -> {
                 try {
                     TableTradeEntry trade = cell.getTableRow().getItem();
+                    MinMaxBound bounds = boundMap.get(trade.getCode());
                     if (bounds != null && selectedCopy != null) {
                         Tooltip tooltip = new Tooltip(bounds.getLowerBond() + " - " + bounds.getHigherBond());
                         cell.setTooltip(tooltip);
@@ -259,6 +264,7 @@ public class TradeEntryController {
                 trade.setTradePrice(newValue);
                 tableTradeEntry.refresh();
             }
+            MinMaxBound bounds = boundMap.get(trade.getCode());
             if (newValue < bounds.getLowerBond() || newValue > bounds.getHigherBond()) {
                 trade.setMisMatch(true);
                 trade.setMatch(false);
@@ -520,8 +526,6 @@ public class TradeEntryController {
         myCheckBox.setSelected(false);
         filterComboBox.setValue("All");
 
-        tradeEntryDAO.getMinMaxValue("AXISBANK", "20250611");
-
         tableTradeEntry.refresh();
     }
 
@@ -686,6 +690,7 @@ public class TradeEntryController {
 
     private boolean isValids(TableTradeEntry comp) {
         try {
+            MinMaxBound bounds = boundMap.get(comp.getCode());
             if (comp.getTradePrice() < bounds.getLowerBond() || comp.getTradePrice() > bounds.getHigherBond()) {
                 showAlert("The min and max value of " + selectedCopy + "should be " + bounds.getLowerBond() + " to " + bounds.getHigherBond());
                 return false;

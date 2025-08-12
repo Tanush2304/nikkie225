@@ -130,21 +130,21 @@ public class TradeEntryDAO {
         return combo;
     }
 
-    public MinMaxBound getMinMaxValue(String code, String date) {
-        Session session = HibernateUtils.getSessionFactory().openSession();
-        String selectMinMixValue = "SELECT lowerband, upperband from stockspricelist where code='" + code +"' and dt='" + date +"';";
-        try {
-            Object[] boundsValues = (Object[]) session.createNativeQuery(selectMinMixValue).getSingleResult();
-               double min = ((Number) boundsValues[0]).doubleValue();
-               double max = ((Number) boundsValues[1]).doubleValue();
-               return new MinMaxBound(min, max);
-        }catch (Exception e) {
-            System.out.println(e.getMessage());
-        }finally {
-            session.close();
-        }
-        return null;
-    }
+//    public MinMaxBound getMinMaxValue(String code, String date) {
+//        Session session = HibernateUtils.getSessionFactory().openSession();
+//        String selectMinMixValue = "SELECT lowerband, upperband from stockspricelist where code='" + code +"' and dt='" + date +"';";
+//        try {
+//            Object[] boundsValues = (Object[]) session.createNativeQuery(selectMinMixValue).getSingleResult();
+//               double min = ((Number) boundsValues[0]).doubleValue();
+//               double max = ((Number) boundsValues[1]).doubleValue();
+//               return new MinMaxBound(min, max);
+//        }catch (Exception e) {
+//            System.out.println(e.getMessage());
+//        }finally {
+//            session.close();
+//        }
+//        return null;
+//    }
 
 
 }
